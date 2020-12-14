@@ -1,0 +1,78 @@
+
+Create table Cargo(
+	id_cargo serial Primary Key,
+	nombre_cargo varchar(25),
+	sueldo_cargo float,
+	hora_cargo time
+);
+
+Create table Empleados(
+	id_empleado serial Primary key,
+	id_cargo_empleado integer,
+	ci_empleado varchar(10),
+	nombre_empleado varchar(25),
+	apellido_empleado varchar(25),
+	nacimiemto_empleado date,
+	direccion_empleado varchar(25),
+	telefono_empleado varchar(9),
+	Constraint id_cargo_empleado_fk 
+	foreign key (id_cargo_empleado)References Cargo(id_cargo)
+);
+
+Create table Clientes(
+	id_cliente serial Primary key,
+	ci_cliente varchar(10),
+	nombre_cliente varchar(25),
+	apellido_cliente varchar(25),
+	direccion_cliente varchar(25),
+	telefono_cliente varchar(25)
+);
+
+Create table Lavadoras(
+	id_lavadoras serial Primary Key,
+	codigo_lavadora varchar(4),
+	marca_lavadora varchar(25),
+	modelo_lavadora varchar(30),
+	fecha_lavadora date,
+	agua_lavadora float,
+	electricidad_lavadora float,
+	peso_lavadora float
+);
+
+Create table Venta(
+	id_venta serial Primary key,
+	id_cliente_venta integer,
+	id_empleado_venta integer,
+	fecha_venta timestamp default now(),
+	Constraint id_cliente_venta_fk 
+	foreign key (id_cliente_venta)References Clientes(id_cliente),
+	Constraint id_empleado_venta_fk
+	foreign key (id_empleado_venta)References Empleados(id_empleado)
+);
+
+Create table VentaDetalle(
+	id_ventaDetalle serial Primary Key,
+	id_venta_ventaDetalle integer,
+	id_lavadora_ventaDetalle integer,
+	cesta_ventaDetalle varchar(2),
+	precio_ventaDetalle float,
+	peso_ventaDetalle float,
+	Constraint id_venta_ventaDetalle_fk 
+	foreign key (id_venta_ventaDetalle)References Venta(id_venta),
+	Constraint id_lavadora_ventaDetalle_fk 
+	foreign key (id_lavadora_ventaDetalle)References Lavadoras(id_lavadora)
+);
+
+Create table Mantenimiento(
+	id_mantenimiento serial Primary key,
+	id_lavadora_mantenimiento integer,
+	id_empleado_mantenimiento integer,
+	tipo_mantenimiento varchar(50),
+	descripcion_mantenimiento varchar(50),
+	inicio_mantenimiento timestamp,
+	fin_mantenimiento timestamp	,
+	Constraint id_lavadora_mantenimiento_fk 
+	foreign key (id_lavadora_mantenimiento)References Lavadoras(id_lavadora),
+	Constraint id_empleado_mantenimiento_fk 
+	foreign key (id_empleado_mantenimiento)References Empleados(id_empleado)
+);
