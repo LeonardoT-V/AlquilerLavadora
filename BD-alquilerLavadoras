@@ -1,0 +1,429 @@
+/*==============================================================*/
+/* Table: CARGO                                                 */
+/*==============================================================*/
+CREATE TABLE Cargo (
+	id_cargo 			serial 					Primary Key,
+	nombre_cargo 		varchar(25),
+	sueldo_cargo 		float,
+	hora_cargo 			time
+);
+
+/*==============================================================*/
+/* Table: EMPLEADOS                                             */
+/*==============================================================*/
+CREATE TABLE Empleados(
+	id_empleado			 serial 				Primary key,
+	id_cargo_empleado	 integer,
+	ci_empleado 		 varchar(10),
+	nombre_empleado 	 varchar(25),
+	apellido_empleado 	 varchar(25),
+	nacimiemto_empleado  date,
+	direccion_empleado   varchar(25),
+	telefono_empleado    varchar(9)
+);
+	
+/*==============================================================*/
+/* Table: CLIENTES                                              */
+/*==============================================================*/
+CREATE TABLE Clientes(
+	id_cliente			serial 					Primary key,
+	ci_cliente 			varchar(10),
+	nombre_cliente 		varchar(25),
+	apellido_cliente 	varchar(25),
+	direccion_cliente 	varchar(25),
+	telefono_cliente 	varchar(9)
+);
+
+/*==============================================================*/
+/* Table: LAVADORAS                                             */
+/*==============================================================*/
+CREATE TABLE Lavadoras(
+	id_lavadora 			serial 				Primary Key,
+	codigo_lavadora 		varchar(5),
+	marca_lavadora 			varchar(25),
+	modelo_lavadora 		varchar(30),
+	fecha_lavadora 			date,
+	agua_lavadora 			float,
+	electricidad_lavadora 	float,
+	peso_lavadora 			float
+);
+
+/*==============================================================*/
+/* Table: VENTA                                                 */
+/*==============================================================*/
+CREATE TABLE Venta(
+	id_venta 			serial 					Primary key,
+	id_cliente_venta 	integer,
+	id_empleado_venta 	integer,
+	fecha_venta 		timestamp default now(),
+	peso_venta			float,
+	total_venta			float
+);
+
+/*==============================================================*/
+/* Table: VENTADETALLE                                          */
+/*==============================================================*/
+CREATE TABLE VentaDetalle(
+	id_ventaDetalle 			serial 			Primary Key,
+	id_venta_ventaDetalle 		integer,
+	id_lavadora_ventaDetalle 	integer,
+	cesta_ventaDetalle 			varchar(2),
+	precio_ventaDetalle 		float,
+	peso_ventaDetalle 			float
+);
+
+/*==============================================================*/
+/* Table: MANTENIMIENTO                                         */
+/*==============================================================*/
+CREATE TABLE Mantenimiento(
+	id_mantenimiento 			serial 			Primary key,
+	id_lavadora_mantenimiento 	integer,
+	id_empleado_mantenimiento 	integer,
+	tipo_mantenimiento 			varchar(50),
+	descripcion_mantenimiento 	varchar(50),
+	inicio_mantenimiento 		timestamp,
+	fin_mantenimiento 			timestamp
+);
+
+/*==============================================================*/
+/* LLAVES FORANEAS                                              */
+/*==============================================================*/
+alter table Empleados
+   add constraint id_cargo_empleado_fk foreign key (id_cargo_empleado)
+      references Cargo(id_cargo);
+	  
+alter table Venta
+   add constraint id_cliente_venta_fk foreign key (id_cliente_venta)
+      References Clientes(id_cliente);
+	  
+alter table Venta
+   add constraint id_empleado_venta_fk foreign key (id_empleado_venta)
+      References Empleados(id_empleado);
+	  
+alter table VentaDetalle
+   add constraint id_lavadora_ventaDetalle_fk foreign key (id_lavadora_ventaDetalle)
+      References Lavadoras(id_lavadora);
+	 
+alter table VentaDetalle
+   add constraint id_venta_ventaDetalle_fk foreign key (id_venta_ventaDetalle)
+      References Venta(id_venta);
+	  
+alter table Mantenimiento
+   add constraint id_lavadora_mantenimiento_fk foreign key (id_lavadora_mantenimiento)
+      References Lavadoras(id_lavadora);
+	  
+alter table Mantenimiento
+   add constraint id_empleado_mantenimiento_fk foreign key (id_empleado_mantenimiento)
+      References Empleados(id_empleado);	  
+      
+/*==============================================================*/
+/* Insert: CARGO                                                */
+/*==============================================================*/
+insert into Cargo(nombre_cargo,sueldo_cargo,hora_cargo)values('Cajero','20.00','7:00:00');
+insert into Cargo(nombre_cargo,sueldo_cargo,hora_cargo)values('tecnico','25.00','9:00:00');
+
+/*==============================================================*/
+/* Insert: EMPLEADOS                                            */
+/*==============================================================*/
+insert into Empleados(id_cargo_empleado,ci_empleado,nombre_empleado,apellido_empleado,
+					  nacimiemto_empleado,direccion_empleado,telefono_empleado)
+values(1,'1315962246','David','Benitez','1991/12/31','via interbarrial','099357375');
+insert into Empleados(id_cargo_empleado,ci_empleado,nombre_empleado,apellido_empleado,
+					  nacimiemto_empleado,direccion_empleado,telefono_empleado)
+values(2,'1348602059','Pedro','Santos','1985/8/1','vial al palmar','095876731');
+insert into Empleados(id_cargo_empleado,ci_empleado,nombre_empleado,apellido_empleado,
+					  nacimiemto_empleado,direccion_empleado,telefono_empleado)
+values(2,'1258395836','Hector','Palma','1981/10/20','calle 13','092850382');
+insert into Empleados(id_cargo_empleado,ci_empleado,nombre_empleado,apellido_empleado,
+					  nacimiemto_empleado,direccion_empleado,telefono_empleado)
+values(1,'1312588591','Maria','Cedeño','1999/3/7','calle J12','099736582');
+insert into Empleados(id_cargo_empleado,ci_empleado,nombre_empleado,apellido_empleado,
+					  nacimiemto_empleado,direccion_empleado,telefono_empleado)
+values(2,'1428593854','Luis','Moreira','1992/4/22','calle Miraflores','093750398');
+insert into Empleados(id_cargo_empleado,ci_empleado,nombre_empleado,apellido_empleado,
+					  nacimiemto_empleado,direccion_empleado,telefono_empleado)
+values(1,'1314943367','Jose','Vargas','1994/5/3','Universitaria 3','099347385');
+
+/*==============================================================*/
+/* Insert: CLIENTES                                             */
+/*==============================================================*/
+insert into Clientes(ci_cliente,nombre_cliente,apellido_cliente,direccion_cliente,telefono_cliente)
+									values('1358603853','Mario','Aguirre','San Juan','092357654');
+insert into Clientes(ci_cliente,nombre_cliente,apellido_cliente,direccion_cliente,telefono_cliente)
+									values('1247693759','Lucia','Medina','calle 13','095656781');
+insert into Clientes(ci_cliente,nombre_cliente,apellido_cliente,direccion_cliente,telefono_cliente)
+									values('1136759385','Sara','Cabrera','via Interbarrial','094657936');
+insert into Clientes(ci_cliente,nombre_cliente,apellido_cliente,direccion_cliente,telefono_cliente)
+									values('1357976853','Paula','Luna','calle J3','094769765');
+insert into Clientes(ci_cliente,nombre_cliente,apellido_cliente,direccion_cliente,telefono_cliente)
+									values('1357657973','Pablo','Rojas','calle 19','093576876');
+insert into Clientes(ci_cliente,nombre_cliente,apellido_cliente,direccion_cliente,telefono_cliente)
+									values('1146876893','Carlos','Marcos','Los Pinos','093576876');					
+                  
+/*==============================================================*/
+/* Insert: LAVADORAS                                            */
+/*==============================================================*/									
+insert into Lavadoras(codigo_lavadora,marca_lavadora,modelo_lavadora,fecha_lavadora,
+					  agua_lavadora,electricidad_lavadora,peso_lavadora)
+					values('LV001','Candy','B0743DV6B4','2020/05/15','58.20','0.85','12.00');
+insert into Lavadoras(codigo_lavadora,marca_lavadora,modelo_lavadora,fecha_lavadora,
+					  agua_lavadora,electricidad_lavadora,peso_lavadora)
+					values('LV002','Candy','B0743DV6B4','2020/05/15','58.20','0.85','12.00');
+insert into Lavadoras(codigo_lavadora,marca_lavadora,modelo_lavadora,fecha_lavadora,
+					  agua_lavadora,electricidad_lavadora,peso_lavadora)
+					values('LV003','LG','FH495BDN2','2020/06/15','57','0.52','12.00');
+insert into Lavadoras(codigo_lavadora,marca_lavadora,modelo_lavadora,fecha_lavadora,
+					  agua_lavadora,electricidad_lavadora,peso_lavadora)
+					values('LV004','LG','FH495BDN2','2020/06/15','57','0.52','12.00');
+insert into Lavadoras(codigo_lavadora,marca_lavadora,modelo_lavadora,fecha_lavadora,
+					  agua_lavadora,electricidad_lavadora,peso_lavadora)
+					values('LV005','Samsung','WF60F1R2F2W','2020/07/1','39','0.50','6.00');
+insert into Lavadoras(codigo_lavadora,marca_lavadora,modelo_lavadora,fecha_lavadora,
+					  agua_lavadora,electricidad_lavadora,peso_lavadora)
+					values('LV006','Samsung','WF60F1R2F2W','2020/07/1','39','0.50','6.00');
+insert into Lavadoras(codigo_lavadora,marca_lavadora,modelo_lavadora,fecha_lavadora,
+					  agua_lavadora,electricidad_lavadora,peso_lavadora)
+					values('LV007','Samsung','WF60F1R2F2W','2020/07/7','39','0.50','6.00');		
+insert into Lavadoras(codigo_lavadora,marca_lavadora,modelo_lavadora,fecha_lavadora,
+					  agua_lavadora,electricidad_lavadora,peso_lavadora)
+					values('LV008','Samsung','WF60F1R2F2W','2020/07/7','39','0.50','6.00');
+insert into Lavadoras(codigo_lavadora,marca_lavadora,modelo_lavadora,fecha_lavadora,
+					  agua_lavadora,electricidad_lavadora,peso_lavadora)
+					values('LV009','Samsung','WF60F1R2F2W','2020/07/7','39','0.50','6.00');	
+          
+/*==============================================================*/
+/* Insert: VENTA                                                */
+/*==============================================================*/	
+insert into Venta(id_cliente_venta,id_empleado_venta,fecha_venta)
+					values(1,1,'2020/12/7 8:30:00');
+insert into Venta(id_cliente_venta,id_empleado_venta,fecha_venta)
+					values(2,1,'2020/12/7 9:00:00');
+insert into Venta(id_cliente_venta,id_empleado_venta,fecha_venta)
+					values(3,4,'2020/12/7 13:00:00');
+insert into Venta(id_cliente_venta,id_empleado_venta,fecha_venta)
+					values(4,6,'2020/12/8 9:00:00');
+insert into Venta(id_cliente_venta,id_empleado_venta,fecha_venta)
+					values(1,6,'2020/12/8 10:00:00');
+insert into Venta(id_cliente_venta,id_empleado_venta,fecha_venta)
+					values(5,4,'2020/12/8 11:00:00');
+insert into Venta(id_cliente_venta,id_empleado_venta,fecha_venta)
+					values(6,4,'2020/12/8 11:30:00');
+insert into Venta(id_cliente_venta,id_empleado_venta,fecha_venta)
+					values(2,1,'2020/12/9 8:30:00');
+insert into Venta(id_cliente_venta,id_empleado_venta,fecha_venta)
+					values(3,1,'2020/12/10 8:30:00');
+insert into Venta(id_cliente_venta,id_empleado_venta,fecha_venta)
+					values(5,4,'2020/12/10 10:00:00');
+insert into Venta(id_cliente_venta,id_empleado_venta,fecha_venta)
+					values(3,6,'2020/12/11 13:00:00');
+insert into Venta(id_cliente_venta,id_empleado_venta,fecha_venta)
+					values(1,6,'2020/12/11 13:00:00');
+insert into Venta(id_cliente_venta,id_empleado_venta,fecha_venta)
+					values(2,1,'2020/12/12 8:00:00');
+insert into Venta(id_cliente_venta,id_empleado_venta,fecha_venta)
+					values(4,1,'2020/12/12 8:25:00');
+insert into Venta(id_cliente_venta,id_empleado_venta,fecha_venta)
+					values(6,1,'2020/12/13 8:30:00');
+insert into Venta(id_cliente_venta,id_empleado_venta,fecha_venta)
+					values(3,1,'2020/12/13 9:15:00');
+insert into Venta(id_cliente_venta,id_empleado_venta,fecha_venta)
+					values(5,4,'2020/12/13 9:25:00');
+insert into Venta(id_cliente_venta,id_empleado_venta,fecha_venta)
+					values(1,4,'2020/12/13 9:30:00');			
+          
+/*==============================================================*/
+/* Insert: VENTADETALLE                                         */
+/*==============================================================*/	
+insert into ventaDetalle(id_venta_ventaDetalle,id_lavadora_ventaDetalle,
+			cesta_ventaDetalle,precio_ventaDetalle,peso_ventaDetalle)
+					values(1,7,'A','3.50','6');
+insert into ventaDetalle(id_venta_ventaDetalle,id_lavadora_ventaDetalle,
+			cesta_ventaDetalle,precio_ventaDetalle,peso_ventaDetalle)
+					values(1,8,'B','3.50','6');
+insert into ventaDetalle(id_venta_ventaDetalle,id_lavadora_ventaDetalle,
+			cesta_ventaDetalle,precio_ventaDetalle,peso_ventaDetalle)
+					values(1,9,'C','3.50','6');
+insert into ventaDetalle(id_venta_ventaDetalle,id_lavadora_ventaDetalle,
+			cesta_ventaDetalle,precio_ventaDetalle,peso_ventaDetalle)
+					values(1,1,'D','9','8');
+insert into ventaDetalle(id_venta_ventaDetalle,id_lavadora_ventaDetalle,
+			cesta_ventaDetalle,precio_ventaDetalle,peso_ventaDetalle)
+					values(2,2,'A','12','12');
+insert into ventaDetalle(id_venta_ventaDetalle,id_lavadora_ventaDetalle,
+			cesta_ventaDetalle,precio_ventaDetalle,peso_ventaDetalle)
+					values(2,3,'B','12','12');
+insert into ventaDetalle(id_venta_ventaDetalle,id_lavadora_ventaDetalle,
+			cesta_ventaDetalle,precio_ventaDetalle,peso_ventaDetalle)
+					values(2,4,'C','3.5','6');
+insert into ventaDetalle(id_venta_ventaDetalle,id_lavadora_ventaDetalle,
+			cesta_ventaDetalle,precio_ventaDetalle,peso_ventaDetalle)
+					values(3,5,'A','3.5','6');
+insert into ventaDetalle(id_venta_ventaDetalle,id_lavadora_ventaDetalle,
+			cesta_ventaDetalle,precio_ventaDetalle,peso_ventaDetalle)
+					values(3,6,'B','3.5','6');
+insert into ventaDetalle(id_venta_ventaDetalle,id_lavadora_ventaDetalle,
+			cesta_ventaDetalle,precio_ventaDetalle,peso_ventaDetalle)
+					values(3,7,'C','3.5','6');	
+insert into ventaDetalle(id_venta_ventaDetalle,id_lavadora_ventaDetalle,
+			cesta_ventaDetalle,precio_ventaDetalle,peso_ventaDetalle)
+					values(3,8,'D','3.5','6');
+insert into ventaDetalle(id_venta_ventaDetalle,id_lavadora_ventaDetalle,
+			cesta_ventaDetalle,precio_ventaDetalle,peso_ventaDetalle)
+					values(4,1,'A','10','9');
+insert into ventaDetalle(id_venta_ventaDetalle,id_lavadora_ventaDetalle,
+			cesta_ventaDetalle,precio_ventaDetalle,peso_ventaDetalle)
+					values(5,2,'A','9','8');					
+insert into ventaDetalle(id_venta_ventaDetalle,id_lavadora_ventaDetalle,
+			cesta_ventaDetalle,precio_ventaDetalle,peso_ventaDetalle)
+					values(5,7,'B','3.5','6');	
+insert into ventaDetalle(id_venta_ventaDetalle,id_lavadora_ventaDetalle,
+			cesta_ventaDetalle,precio_ventaDetalle,peso_ventaDetalle)
+					values(5,3,'C','9','8');
+insert into ventaDetalle(id_venta_ventaDetalle,id_lavadora_ventaDetalle,
+			cesta_ventaDetalle,precio_ventaDetalle,peso_ventaDetalle)
+					values(6,6,'A','3.5','6');					
+insert into ventaDetalle(id_venta_ventaDetalle,id_lavadora_ventaDetalle,
+			cesta_ventaDetalle,precio_ventaDetalle,peso_ventaDetalle)
+					values(6,4,'B','12','12');	
+insert into ventaDetalle(id_venta_ventaDetalle,id_lavadora_ventaDetalle,
+			cesta_ventaDetalle,precio_ventaDetalle,peso_ventaDetalle)
+					values(6,5,'C','3.5','6');
+insert into ventaDetalle(id_venta_ventaDetalle,id_lavadora_ventaDetalle,
+			cesta_ventaDetalle,precio_ventaDetalle,peso_ventaDetalle)
+					values(7,1,'A','9','8');					
+insert into ventaDetalle(id_venta_ventaDetalle,id_lavadora_ventaDetalle,
+			cesta_ventaDetalle,precio_ventaDetalle,peso_ventaDetalle)
+					values(7,3,'B','12','12');	
+insert into ventaDetalle(id_venta_ventaDetalle,id_lavadora_ventaDetalle,
+			cesta_ventaDetalle,precio_ventaDetalle,peso_ventaDetalle)
+					values(8,1,'A','12','12');
+insert into ventaDetalle(id_venta_ventaDetalle,id_lavadora_ventaDetalle,
+			cesta_ventaDetalle,precio_ventaDetalle,peso_ventaDetalle)
+					values(9,5,'A','3.5','6');					
+insert into ventaDetalle(id_venta_ventaDetalle,id_lavadora_ventaDetalle,
+			cesta_ventaDetalle,precio_ventaDetalle,peso_ventaDetalle)
+					values(9,8,'B','3.5','6');	
+insert into ventaDetalle(id_venta_ventaDetalle,id_lavadora_ventaDetalle,
+			cesta_ventaDetalle,precio_ventaDetalle,peso_ventaDetalle)
+					values(10,2,'A','8','9');					
+insert into ventaDetalle(id_venta_ventaDetalle,id_lavadora_ventaDetalle,
+			cesta_ventaDetalle,precio_ventaDetalle,peso_ventaDetalle)
+					values(10,6,'B','3.5','6');	
+insert into ventaDetalle(id_venta_ventaDetalle,id_lavadora_ventaDetalle,
+			cesta_ventaDetalle,precio_ventaDetalle,peso_ventaDetalle)
+					values(10,9,'C','3.5','6');
+insert into ventaDetalle(id_venta_ventaDetalle,id_lavadora_ventaDetalle,
+			cesta_ventaDetalle,precio_ventaDetalle,peso_ventaDetalle)
+					values(11,7,'A','3.5','6');	
+insert into ventaDetalle(id_venta_ventaDetalle,id_lavadora_ventaDetalle,
+			cesta_ventaDetalle,precio_ventaDetalle,peso_ventaDetalle)
+					values(11,8,'B','3.5','6');
+insert into ventaDetalle(id_venta_ventaDetalle,id_lavadora_ventaDetalle,
+			cesta_ventaDetalle,precio_ventaDetalle,peso_ventaDetalle)
+					values(12,6,'A','3.5','6');
+insert into ventaDetalle(id_venta_ventaDetalle,id_lavadora_ventaDetalle,
+			cesta_ventaDetalle,precio_ventaDetalle,peso_ventaDetalle)
+					values(12,9,'B','3.5','6');
+insert into ventaDetalle(id_venta_ventaDetalle,id_lavadora_ventaDetalle,
+			cesta_ventaDetalle,precio_ventaDetalle,peso_ventaDetalle)
+					values(12,3,'C','9','8');
+insert into ventaDetalle(id_venta_ventaDetalle,id_lavadora_ventaDetalle,
+			cesta_ventaDetalle,precio_ventaDetalle,peso_ventaDetalle)
+					values(13,1,'A','12','12');
+insert into ventaDetalle(id_venta_ventaDetalle,id_lavadora_ventaDetalle,
+			cesta_ventaDetalle,precio_ventaDetalle,peso_ventaDetalle)
+					values(14,4,'A','12','12');					
+insert into ventaDetalle(id_venta_ventaDetalle,id_lavadora_ventaDetalle,
+			cesta_ventaDetalle,precio_ventaDetalle,peso_ventaDetalle)
+					values(14,9,'B','3.5','6');	
+insert into ventaDetalle(id_venta_ventaDetalle,id_lavadora_ventaDetalle,
+			cesta_ventaDetalle,precio_ventaDetalle,peso_ventaDetalle)
+					values(15,1,'A','12','12');					
+insert into ventaDetalle(id_venta_ventaDetalle,id_lavadora_ventaDetalle,
+			cesta_ventaDetalle,precio_ventaDetalle,peso_ventaDetalle)
+					values(15,5,'B','3.5','6');
+insert into ventaDetalle(id_venta_ventaDetalle,id_lavadora_ventaDetalle,
+			cesta_ventaDetalle,precio_ventaDetalle,peso_ventaDetalle)
+					values(16,2,'A','9','10');					
+insert into ventaDetalle(id_venta_ventaDetalle,id_lavadora_ventaDetalle,
+			cesta_ventaDetalle,precio_ventaDetalle,peso_ventaDetalle)
+					values(16,6,'B','3.5','6');
+insert into ventaDetalle(id_venta_ventaDetalle,id_lavadora_ventaDetalle,
+			cesta_ventaDetalle,precio_ventaDetalle,peso_ventaDetalle)
+					values(17,7,'A','3.5','6');
+insert into ventaDetalle(id_venta_ventaDetalle,id_lavadora_ventaDetalle,
+			cesta_ventaDetalle,precio_ventaDetalle,peso_ventaDetalle)
+					values(18,8,'A','3.5','6');
+insert into ventaDetalle(id_venta_ventaDetalle,id_lavadora_ventaDetalle,
+			cesta_ventaDetalle,precio_ventaDetalle,peso_ventaDetalle)
+					values(18,3,'B','9','10');	
+          
+/*==============================================================*/
+/* Insert: MANTENIMIENTO                                        */
+/*==============================================================*/
+insert into Mantenimiento(id_lavadora_mantenimiento,id_empleado_mantenimiento,
+			tipo_mantenimiento,descripcion_mantenimiento,inicio_mantenimiento,fin_mantenimiento)
+values(1,2,'Preventivo','Chequeo semanal','2020/12/6 10:00:00','2020/12/6 10:30:00');
+insert into Mantenimiento(id_lavadora_mantenimiento,id_empleado_mantenimiento,
+			tipo_mantenimiento,descripcion_mantenimiento,inicio_mantenimiento,fin_mantenimiento)
+values(2,3,'Preventivo','Chequeo semanal','2020/12/6 10:00:00','2020/12/6 10:30:00');
+insert into Mantenimiento(id_lavadora_mantenimiento,id_empleado_mantenimiento,
+			tipo_mantenimiento,descripcion_mantenimiento,inicio_mantenimiento,fin_mantenimiento)
+values(3,5,'Preventivo','Chequeo semanal','2020/12/6 10:00:00','2020/12/6 10:40:00');
+insert into Mantenimiento(id_lavadora_mantenimiento,id_empleado_mantenimiento,
+			tipo_mantenimiento,descripcion_mantenimiento,inicio_mantenimiento,fin_mantenimiento)
+values(4,2,'Preventivo','Chequeo semanal','2020/12/6 11:00:00','2020/12/6 11:45:00');
+insert into Mantenimiento(id_lavadora_mantenimiento,id_empleado_mantenimiento,
+			tipo_mantenimiento,descripcion_mantenimiento,inicio_mantenimiento,fin_mantenimiento)
+values(5,3,'Preventivo','Chequeo semanal','2020/12/6 11:10:00','2020/12/6 11:35:00');
+insert into Mantenimiento(id_lavadora_mantenimiento,id_empleado_mantenimiento,
+			tipo_mantenimiento,descripcion_mantenimiento,inicio_mantenimiento,fin_mantenimiento)
+values(6,5,'Preventivo','Chequeo semanal','2020/12/6 11:10:00','2020/12/6 11:40:00');
+insert into Mantenimiento(id_lavadora_mantenimiento,id_empleado_mantenimiento,
+			tipo_mantenimiento,descripcion_mantenimiento,inicio_mantenimiento,fin_mantenimiento)
+values(7,2,'Preventivo','Chequeo semanal','2020/12/6 15:00:00','2020/12/6 15:50:00');
+insert into Mantenimiento(id_lavadora_mantenimiento,id_empleado_mantenimiento,
+			tipo_mantenimiento,descripcion_mantenimiento,inicio_mantenimiento,fin_mantenimiento)
+values(8,3,'Predictivo','Chequeo semanal','2020/12/6 14:30:00','2020/12/6 15:00:00');
+insert into Mantenimiento(id_lavadora_mantenimiento,id_empleado_mantenimiento,
+			tipo_mantenimiento,descripcion_mantenimiento,inicio_mantenimiento,fin_mantenimiento)
+values(9,5,'Predictivo','Chequeo semanal','2020/12/6 15:10:00','2020/12/6 15:45:00');
+insert into Mantenimiento(id_lavadora_mantenimiento,id_empleado_mantenimiento,
+			tipo_mantenimiento,descripcion_mantenimiento,inicio_mantenimiento,fin_mantenimiento)
+values(9,2,'Correctivo','Falla del motor','2020/12/7 10:00:00','2020/12/9 7:00:00');
+insert into Mantenimiento(id_lavadora_mantenimiento,id_empleado_mantenimiento,
+			tipo_mantenimiento,descripcion_mantenimiento,inicio_mantenimiento,fin_mantenimiento)
+values(8,2,'Correctivo','Falla de la valvula','2020/12/8 9:30:00','2020/12/8 17:00:00');
+insert into Mantenimiento(id_lavadora_mantenimiento,id_empleado_mantenimiento,
+			tipo_mantenimiento,descripcion_mantenimiento,inicio_mantenimiento,fin_mantenimiento)
+values(1,2,'Correctivo','Boton del panel','2020/12/10 10:30:00','2020/12/10 12:00:00');
+insert into Mantenimiento(id_lavadora_mantenimiento,id_empleado_mantenimiento,
+			tipo_mantenimiento,descripcion_mantenimiento,inicio_mantenimiento,fin_mantenimiento)
+values(5,5,'Correctivo','Manguera rota','2020/12/11 10:40:00','2020/12/11 12:00:00');
+insert into Mantenimiento(id_lavadora_mantenimiento,id_empleado_mantenimiento,
+			tipo_mantenimiento,descripcion_mantenimiento,inicio_mantenimiento,fin_mantenimiento)
+values(2,2,'Correctivo','Puerta atascada','2020/12/12 13:50:00','2020/12/12 14:20:00');
+insert into Mantenimiento(id_lavadora_mantenimiento,id_empleado_mantenimiento,
+			tipo_mantenimiento,descripcion_mantenimiento,inicio_mantenimiento,fin_mantenimiento)
+values(8,5,'Correctivo','Bomba de agua','2020/12/13 15:10:00','2020/12/13 18:25:00');
+insert into Mantenimiento(id_lavadora_mantenimiento,id_empleado_mantenimiento,
+			tipo_mantenimiento,descripcion_mantenimiento,inicio_mantenimiento,fin_mantenimiento)
+values(6,3,'Correctivo','Transmision','2020/12/14 9:30:00','2020/12/14 20:14:00');
+
+/*==============================================================*/
+/* UPDATE: VENTA                                                */
+/*==============================================================*/	
+UPDATE Venta
+SET total_venta=s1.precio    
+FROM (SELECT sum(precio_ventadetalle) as precio,id_venta_ventaDetalle
+      FROM VentaDetalle
+	 group by id_venta_ventaDetalle) AS s1
+WHERE Venta.id_venta=s1.id_venta_ventaDetalle;
+
+UPDATE Venta
+SET peso_venta=s1.peso    
+FROM (SELECT sum(peso_ventadetalle) as peso,id_venta_ventaDetalle
+      FROM VentaDetalle
+	 group by id_venta_ventaDetalle) AS s1
+WHERE Venta.id_venta=s1.id_venta_ventaDetalle;
+		
