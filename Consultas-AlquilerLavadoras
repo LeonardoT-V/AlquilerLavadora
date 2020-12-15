@@ -1,0 +1,61 @@
+/*===================================================================*/
+/* Consulta: Cantidad de veces que fueron utilizadas las lavadora    */
+/*===================================================================*/
+select
+	distinct Lavadoras.codigo_lavadora,
+	count(id_lavadora_ventaDetalle) as CANTIDAD_USOS
+from VentaDetalle 
+	Inner join Lavadoras on Lavadoras.id_lavadora=VentaDetalle.id_lavadora_ventaDetalle
+	group by codigo_lavadora
+	order by CANTIDAD_USOS desc;
+  
+/*===================================================================*/
+/* Consulta: Las lavadoras que ha utilizado el cliente con el id 1   */
+/*===================================================================*/
+select
+	Clientes.ci_cliente,
+	Clientes.nombre_cliente||' '||Clientes.apellido_cliente as NombreApellido,
+	Venta.fecha_venta,
+	Lavadoras.codigo_lavadora
+from Venta
+	Inner join Clientes on Clientes.id_cliente=Venta.id_cliente_venta
+	Inner join VentaDetalle on VentaDetalle.id_venta_ventaDetalle=Venta.id_venta
+	Inner join Lavadoras on Lavadoras.id_lavadora=VentaDetalle.id_lavadora_ventaDetalle
+	where Clientes.id_cliente='1';
+  
+/*===================================================================*/
+/* Consulta: Cantidad de mantenimiento que realizaron los tecnicos   */
+/*===================================================================*/
+select 
+	Empleados.nombre_empleado||' '||Empleados.apellido_empleado as NombreApellido,
+	count(descripcion_mantenimiento) as Mantenimientos
+from Mantenimiento
+	Inner join Empleados on Empleados.id_empleado=Mantenimiento.id_empleado_mantenimiento
+	where tipo_mantenimiento='Preventivo' or tipo_mantenimiento='Predictivo'
+	group by NombreApellido
+  order by Mantenimientos desc;
+	
+/*===================================================================*/
+/* Consulta: Cantidad de repaciones que realizaron los tecnicos     */
+/*===================================================================*/
+select 
+	Empleados.nombre_empleado||' '||Empleados.apellido_empleado as NombreApellido,
+	count(descripcion_mantenimiento) as Mantenimientos
+from Mantenimiento
+	Inner join Empleados on Empleados.id_empleado=Mantenimiento.id_empleado_mantenimiento
+	where tipo_mantenimiento='Correctivo'
+	group by NombreApellido
+	order by Mantenimientos desc;
+  
+/*===================================================================*/
+/* Consulta: Consumo de agua de las lavadora en las mañanas          */
+/*===================================================================*/
+select
+	DATE(fecha_venta) AS Fecha,
+	sum(Lavadoras.agua_lavadora)as UsoAgua
+from VentaDetalle
+	Inner join Lavadoras on Lavadoras.id_lavadora=VentaDetalle.id_lavadora_ventaDetalle
+	Inner join Venta on Venta.id_venta=VentaDetalle.id_venta_ventaDetalle
+	where EXTRACT(HOUR FROM fecha_venta)<='13' and EXTRACT(HOUR FROM fecha_venta)>='7'
+	group by DATE(fecha_venta)
+	order by DATE(fecha_venta) asc;
