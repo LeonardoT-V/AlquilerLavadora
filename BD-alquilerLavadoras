@@ -229,7 +229,13 @@ insert into Venta(id_cliente_venta,id_empleado_venta,fecha_venta)
 insert into Venta(id_cliente_venta,id_empleado_venta,fecha_venta)
 					values(5,4,'2020/12/13 9:25:00');
 insert into Venta(id_cliente_venta,id_empleado_venta,fecha_venta)
-					values(1,4,'2020/12/13 9:30:00');			
+					values(1,4,'2020/12/13 9:30:00');
+insert into Venta(id_cliente_venta,id_empleado_venta,fecha_venta)
+					values(2,6,'2020/12/14 14:30:00');
+insert into Venta(id_cliente_venta,id_empleado_venta,fecha_venta)
+					values(6,1,'2020/12/15 15:00:00');		
+insert into Venta(id_cliente_venta,id_empleado_venta,fecha_venta)
+					values(3,4,'2020/12/16 11:00:00');					
           
 /*==============================================================*/
 /* Insert: VENTADETALLE                                         */
@@ -356,7 +362,25 @@ insert into ventaDetalle(id_venta_ventaDetalle,id_lavadora_ventaDetalle,
 					values(18,8,'A','3.5','6');
 insert into ventaDetalle(id_venta_ventaDetalle,id_lavadora_ventaDetalle,
 			cesta_ventaDetalle,precio_ventaDetalle,peso_ventaDetalle)
-					values(18,3,'B','9','10');	
+					values(18,3,'B','9','10');					
+insert into ventaDetalle(id_venta_ventaDetalle,id_lavadora_ventaDetalle,
+			cesta_ventaDetalle,precio_ventaDetalle,peso_ventaDetalle)
+					values(19,5,'A','3.50','6');					
+insert into ventaDetalle(id_venta_ventaDetalle,id_lavadora_ventaDetalle,
+			cesta_ventaDetalle,precio_ventaDetalle,peso_ventaDetalle)
+					values(19,6,'B','3.50','6');	
+insert into ventaDetalle(id_venta_ventaDetalle,id_lavadora_ventaDetalle,
+			cesta_ventaDetalle,precio_ventaDetalle,peso_ventaDetalle)
+					values(20,2,'A','3.50','6');					
+insert into ventaDetalle(id_venta_ventaDetalle,id_lavadora_ventaDetalle,
+			cesta_ventaDetalle,precio_ventaDetalle,peso_ventaDetalle)
+					values(20,6,'B','9','8');	
+insert into ventaDetalle(id_venta_ventaDetalle,id_lavadora_ventaDetalle,
+			cesta_ventaDetalle,precio_ventaDetalle,peso_ventaDetalle)
+					values(21,9,'A','3.5','6');						
+insert into ventaDetalle(id_venta_ventaDetalle,id_lavadora_ventaDetalle,
+			cesta_ventaDetalle,precio_ventaDetalle,peso_ventaDetalle)
+					values(21,2,'B','9','8');										
           
 /*==============================================================*/
 /* Insert: MANTENIMIENTO                                        */
