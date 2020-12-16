@@ -56,6 +56,6 @@ select
 from VentaDetalle
 	Inner join Lavadoras on Lavadoras.id_lavadora=VentaDetalle.id_lavadora_ventaDetalle
 	Inner join Venta on Venta.id_venta=VentaDetalle.id_venta_ventaDetalle
-	where EXTRACT(HOUR FROM fecha_venta)<='13' and EXTRACT(HOUR FROM fecha_venta)>='7'
+	where EXTRACT(HOUR FROM fecha_venta)<'13' and EXTRACT(HOUR FROM fecha_venta)>='7'
 	group by DATE(fecha_venta)
 	order by DATE(fecha_venta) asc;
