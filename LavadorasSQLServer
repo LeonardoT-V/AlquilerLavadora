@@ -1,0 +1,140 @@
+CREATE TABLE Cargo (
+	id_cargo 			int 					Primary Key,
+	nombre_cargo 		varchar(25),
+	sueldo_cargo 		float,
+	hora_cargo 			time
+);
+
+CREATE TABLE Empleados(
+	id_empleado			 int 				Primary key,
+	id_cargo_empleado	 integer,
+	ci_empleado 		 varchar(10),
+	nombre_empleado 	 varchar(25),
+	apellido_empleado 	 varchar(25),
+	nacimiemto_empleado  date,
+	direccion_empleado   varchar(25),
+	telefono_empleado    varchar(9)
+);
+	
+CREATE TABLE Clientes(
+	id_cliente			int 					Primary key,
+	ci_cliente 			varchar(10),
+	nombre_cliente 		varchar(25),
+	apellido_cliente 	varchar(25),
+	direccion_cliente 	varchar(25),
+	telefono_cliente 	varchar(9)
+);
+
+CREATE TABLE Lavadoras(
+	id_lavadora 			int 				Primary Key,
+	codigo_lavadora 		varchar(5),
+	marca_lavadora 			varchar(25),
+	modelo_lavadora 		varchar(30),
+	fecha_lavadora 			date,
+	agua_lavadora 			float,
+	electricidad_lavadora 	float,
+	peso_lavadora 			float
+);
+
+CREATE TABLE Venta(
+	id_venta 			int 					Primary key,
+	id_cliente_venta 	integer,
+	id_empleado_venta 	integer,
+	fecha_venta 		datetime2 default getdate(),
+	peso_venta			float,
+	total_venta			float
+);
+
+CREATE TABLE VentaDetalle(
+	id_ventaDetalle 			int 			Primary Key,
+	id_venta_ventaDetalle 		integer,
+	id_lavadora_ventaDetalle 	integer,
+	cesta_ventaDetalle 			varchar(2),
+	precio_ventaDetalle 		float,
+	peso_ventaDetalle 			float
+);
+
+CREATE TABLE Mantenimiento(
+	id_mantenimiento 			int 			Primary key,
+	id_lavadora_mantenimiento 	integer,
+	id_empleado_mantenimiento 	integer,
+	tipo_mantenimiento 			varchar(50),
+	descripcion_mantenimiento 	varchar(50),
+	inicio_mantenimiento 		datetime2,
+	fin_mantenimiento 			datetime2
+);
+
+alter table Empleados
+   add constraint id_cargo_empleado_fk foreign key (id_cargo_empleado)
+      references Cargo(id_cargo);
+	  
+alter table Venta
+   add constraint id_cliente_venta_fk foreign key (id_cliente_venta)
+      References Clientes(id_cliente);
+	  
+alter table Venta
+   add constraint id_empleado_venta_fk foreign key (id_empleado_venta)
+      References Empleados(id_empleado);
+	  
+alter table VentaDetalle
+   add constraint id_lavadora_ventaDetalle_fk foreign key (id_lavadora_ventaDetalle)
+      References Lavadoras(id_lavadora);
+	 
+alter table VentaDetalle
+   add constraint id_venta_ventaDetalle_fk foreign key (id_venta_ventaDetalle)
+      References Venta(id_venta);
+	  
+alter table Mantenimiento
+   add constraint id_lavadora_mantenimiento_fk foreign key (id_lavadora_mantenimiento)
+      References Lavadoras(id_lavadora);
+	  
+alter table Mantenimiento
+   add constraint id_empleado_mantenimiento_fk foreign key (id_empleado_mantenimiento)
+      References Empleados(id_empleado);
+
+insert into Cargo values('1' ,'Cajero','20.00','7:00:00');
+insert into Cargo values('2' ,'tecnico','25.00','9:00:00');
+
+insert into Empleados values(1,'1','1315962246','David','Benitez','1991/12/31','via interbarrial','099357375');
+
+insert into Empleados values(2,'2','1348602059','Pedro','Santos','1985/8/1','vial al palmar','095876731');
+
+insert into Empleados values(3,'2','1258395836','Hector','Palma','1981/10/20','calle 13','092850382');
+
+insert into Empleados values(4,'1','1312588591','Maria','Cedeño','1999/3/7','calle J12','099736582');
+
+insert into Empleados values(5,'2','1428593854','Luis','Moreira','1992/4/22','calle Miraflores','093750398');
+
+insert into Empleados values(6,'1','1314943367','Jose','Vargas','1994/5/3','Universitaria 3','099347385');
+
+insert into Clientes values(1,'1358603853','Mario','Aguirre','San Juan','092357654');
+insert into Clientes values(2,'1247693759','Lucia','Medina','calle 13','095656781');
+insert into Clientes values(3,'1136759385','Sara','Cabrera','via Interbarrial','094657936');
+insert into Clientes values(4,'1357976853','Paula','Luna','calle J3','094769765');
+insert into Clientes values(5,'1357657973','Pablo','Rojas','calle 19','093576876');
+insert into Clientes values(6,'1146876893','Carlos','Marcos','Los Pinos','093576876');
+																		
+insert into Lavadoras values(1,'LV001','Candy','B0743DV6B4','2020/05/15','58.20','0.85','12.00');
+insert into Lavadoras values(2,'LV002','Candy','B0743DV6B4','2020/05/15','58.20','0.85','12.00');
+insert into Lavadoras values(3,'LV003','LG','FH495BDN2','2020/06/15','57','0.52','12.00');
+insert into Lavadoras values(4,'LV004','LG','FH495BDN2','2020/06/15','57','0.52','12.00');
+insert into Lavadoras values(5,'LV005','Samsung','WF60F1R2F2W','2020/07/1','39','0.50','6.00');
+insert into Lavadoras values(6,'LV006','Samsung','WF60F1R2F2W','2020/07/1','39','0.50','6.00');
+insert into Lavadoras values(7,'LV007','Samsung','WF60F1R2F2W','2020/07/7','39','0.50','6.00');		
+insert into Lavadoras values(8,'LV008','Samsung','WF60F1R2F2W','2020/07/7','39','0.50','6.00');
+insert into Lavadoras values(9,'LV009','Samsung','WF60F1R2F2W','2020/07/7','39','0.50','6.00');	
+
+insert into Venta values(1,1,2,'2020/06/1 8:00:00',12,15);
+insert into Venta values(2,2,1,'2020/06/1 8:30:00',8,13);
+insert into Venta values(3,3,3,'2020/06/1 8:35:00',9,14);
+
+insert into ventaDetalle values(1,1,1,'A','3.50','6');
+insert into ventaDetalle values(2,1,2,'B','3.50','6');
+insert into ventaDetalle values(3,1,3,'C','8','12');
+insert into ventaDetalle values(4,2,2,'A','8','12');
+insert into ventaDetalle values(5,3,1,'A','6','3.5');
+insert into ventaDetalle values(6,3,3,'B','6','3.5');
+
+insert into Mantenimiento values(1,1,4,'Correctivo','Falla de valvula','2019/06/1 8:36:00','2019/06/1 10:00:00');
+insert into Mantenimiento values(2,2,5,'Preventivo','Chequeo semanal','2019/06/1 17:00:00','2019/06/1 19:00:00');
+insert into Mantenimiento values(3,3,6,'Preventivo','Chequeo semanal','2019/06/1 17:00:00','2019/06/1 19:00:00');	  
