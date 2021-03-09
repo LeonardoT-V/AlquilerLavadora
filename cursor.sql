@@ -13,6 +13,7 @@ declare
 			INNER JOIN empleados on empleados.id_empleado = mantenimiento.id_empleado_mantenimiento
 			INNER JOIN lavadoras on lavadoras.id_lavadora = mantenimiento.id_lavadora_mantenimiento
 			where date(fin_mantenimiento)='2020-12-13';
+			--where date(fin_mantenimiento)='2020-12-14';
 begin
 OPEN Cur_mant;
 Fetch Cur_mant into registro;
