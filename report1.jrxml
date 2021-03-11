@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report1" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a221795e-20a6-49f2-819e-5ef97aea1341">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="150"/>
+	<queryString>
+		<![CDATA[select
+
+count(v.id_venta) as cantidadVentas,
+lav.codigo_lavadora as lavadorass,
+ROUND(SUM(lav.agua_lavadora)::numeric,2)as consumo,
+ROUND(SUM(lav.electricidad_lavadora)::numeric,2)as energia,
+sum(precio_ventadetalle) as precio
+FROM
+ventaDetalle
+INNER JOIN venta as v ON v.id_venta = ventaDetalle.id_venta_ventadetalle
+INNER JOIN lavadoras as lav ON lav.id_lavadora = ventaDetalle.id_lavadora_ventadetalle
+
+
+
+group by lav.codigo_lavadora
+order by lav.codigo_lavadora asc]]>
+	</queryString>
+	<field name="cantidadventas" class="java.lang.Long"/>
+	<field name="lavadorass" class="java.lang.String"/>
+	<field name="consumo" class="java.math.BigDecimal"/>
+	<field name="energia" class="java.math.BigDecimal"/>
+	<field name="precio" class="java.lang.Double"/>
+	<variable name="consumo_1" class="java.math.BigDecimal" resetType="Page" calculation="Sum">
+		<variableExpression><![CDATA[$F{consumo}]]></variableExpression>
+	</variable>
+	<variable name="energia_1" class="java.math.BigDecimal" resetType="Page" calculation="Sum">
+		<variableExpression><![CDATA[$F{energia}]]></variableExpression>
+	</variable>
+	<variable name="precio_1" class="java.lang.Double" resetType="Page" calculation="Sum">
+		<variableExpression><![CDATA[$F{precio}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="77" splitType="Stretch">
+			<staticText>
+				<reportElement x="206" y="18" width="178" height="59" uuid="de10737e-15c6-41fd-90ad-515b92e80ce5"/>
+				<textElement>
+					<font size="24"/>
+				</textElement>
+				<text><![CDATA[Reporte]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="107" splitType="Stretch">
+			<staticText>
+				<reportElement x="17" y="17" width="518" height="27" uuid="6261cf61-2434-490e-a2d6-618c59e0fe7d"/>
+				<text><![CDATA[Realizar un reporte que mueste la cantidad de veces que una lavadora fue usada en un dia, y calcular el aproximado de agua y electricidad consumido]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="34" y="55" width="100" height="20" uuid="80efd94b-a5a9-4faa-96b7-a6f4ff6c48a3"/>
+				<text><![CDATA[Electricidad Total:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="34" y="75" width="100" height="20" uuid="fb13b4ca-de99-4706-bc4c-70376c84a6a3"/>
+				<text><![CDATA[Agua Total:]]></text>
+			</staticText>
+			<textField evaluationTime="Page">
+				<reportElement x="151" y="75" width="100" height="20" uuid="a2b32cad-9e51-4643-a8f7-8c5b4b7c532e"/>
+				<textFieldExpression><![CDATA[$V{consumo_1}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Page">
+				<reportElement x="151" y="55" width="100" height="20" uuid="84db3e83-c5a8-4c0f-8dfe-3fac552813c4"/>
+				<textFieldExpression><![CDATA[$V{energia_1}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Page">
+				<reportElement x="418" y="55" width="100" height="20" uuid="1a2ea05e-90a9-40c6-b49c-edd3ebea2ab6"/>
+				<textFieldExpression><![CDATA[$V{precio_1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="300" y="55" width="100" height="20" uuid="48930837-128a-426f-a6fb-2f750233eda0"/>
+				<text><![CDATA[Ingresos Generados]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="27" splitType="Stretch">
+			<staticText>
+				<reportElement x="67" y="2" width="100" height="20" uuid="77a7254b-de92-47ee-a600-e4291adc39e6"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[lavadoras]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="231" y="2" width="124" height="20" uuid="a948be57-7375-443f-8362-66bb8f7360a2"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[cantidad de ventas]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="36">
+			<textField>
+				<reportElement x="67" y="4" width="100" height="20" uuid="678b8f03-0958-46f8-9ffe-8c4c32eb772f"/>
+				<textFieldExpression><![CDATA[$F{lavadorass}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="241" y="4" width="100" height="20" uuid="72b0962a-1e98-4d1d-966f-63a8b71cc2c0"/>
+				<textFieldExpression><![CDATA[$F{cantidadventas}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="183" splitType="Stretch">
+			<barChart>
+				<chart>
+					<reportElement x="34" y="12" width="484" height="151" uuid="2a52eac3-b896-4701-9fa4-9f2c96435c7b"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{lavadorass}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{lavadorass}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{cantidadventas}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+		</band>
+	</columnFooter>
+</jasperReport>
